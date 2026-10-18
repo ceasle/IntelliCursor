@@ -1,0 +1,91 @@
+<idea-plugin>
+    <id>com.ceasle.intellicursor</id>
+    <name>IntelliCursor</name>
+    <vendor email="isceasle@gmail.com" url="https://github.com/ceasle">ceasle</vendor>
+
+    <description><![CDATA[
+    <p>Chat with the Cursor agent inside IntelliJ IDEA. IntelliCursor connects to the Cursor CLI
+    you already have installed and gives it a chat panel in the IDE, so you can ask questions,
+    plan changes and let the agent edit your project without switching to a terminal.</p>
+
+    <h3>Features</h3>
+    <ul>
+      <li><b>Chat panel</b>: your messages on the right, Cursor's replies on the left, with live
+        progress while it thinks, runs tools and writes.</li>
+      <li><b>Attach files with @</b>: search your project and add files to a message.</li>
+      <li><b>Commands with /</b>: new chat, resume, summarize, switch between Agent, Plan and Ask
+        modes, choose a model, review changes, commit, and your Cursor skills and custom commands.</li>
+      <li><b>Chat history</b>: reopen and continue any earlier chat in the project.</li>
+      <li><b>MCP servers</b>: see each server's status, turn it on or off, sign in, and list its tools.</li>
+      <li><b>Approvals</b>: review each file edit or shell command before it runs, or turn on
+        Run everything to approve them all.</li>
+      <li><b>Editor actions</b>: send, explain or refactor the selected code from the editor's
+        right-click menu, and review the agent's edits in the IntelliJ diff viewer.</li>
+    </ul>
+
+    <h3>Requirements</h3>
+    <ul>
+      <li>The Cursor CLI (<code>agent</code>), installed and signed in. Install it with <code>curl https://cursor.com/install -fsS | bash</code>.</li>
+      <li>A Cursor account.</li>
+    </ul>
+
+    <h3>Getting started</h3>
+    <ol>
+      <li>Open the <b>IntelliCursor</b> tool window from the right-hand stripe, or
+        <b>View | Tool Windows | IntelliCursor</b>.</li>
+      <li>If the header says <b>Signed out</b>, click <b>Sign in</b> and finish the login in your browser.</li>
+      <li>Pick a mode (<b>Agent</b>, <b>Plan</b> or <b>Ask</b>) and a model under the message box,
+        type a message and press <b>Enter</b>.</li>
+      <li>Type <code>@</code> to attach project files, or <code>/</code> to see all commands.
+        The file open in the editor is attached automatically.</li>
+      <li>When Cursor wants to edit a file or run a command, choose <b>Allow Once</b>,
+        <b>Allow Always</b> or <b>Deny</b>.</li>
+      <li>Type <code>/changes</code> to review the agent's edits in the diff viewer, and
+        <code>/commit</code> to commit them.</li>
+    </ol>
+    <p>You can also select code in the editor, right-click and choose <b>IntelliCursor</b> to
+      send, explain or refactor it.</p>
+
+    <p>Source code, documentation and issues:
+      <a href="https://github.com/ceasle/IntelliCursor">github.com/ceasle/IntelliCursor</a></p>
+
+    <p>IntelliCursor is an independent project. It is not made or endorsed by Cursor or Anysphere.</p>
+    ]]></description>
+
+    <depends>com.intellij.modules.platform</depends>
+    <depends>Git4Idea</depends>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <toolWindow id="IntelliCursor"
+                    anchor="right"
+                    secondary="false"
+                    icon="/icons/cursorToolWindow.svg"
+                    factoryClass="com.ceasle.intellicursor.ui.CursorToolWindowFactory"/>
+        <projectService serviceImplementation="com.ceasle.intellicursor.service.CursorSessionManager"/>
+        <notificationGroup id="IntelliCursor" displayType="BALLOON"/>
+        <postStartupActivity implementation="com.ceasle.intellicursor.service.CursorStartupActivity"/>
+    </extensions>
+
+    <actions>
+        <group id="Cursor.EditorPopupMenu" text="IntelliCursor" popup="true" icon="/icons/cursorToolWindow.svg">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <action id="Cursor.SendSelection"
+                    class="com.ceasle.intellicursor.actions.SendSelectionAction"
+                    text="Send Selection to Cursor"
+                    description="Sends the highlighted code to Cursor Agent"/>
+            <action id="Cursor.ExplainCode"
+                    class="com.ceasle.intellicursor.actions.ExplainCodeAction"
+                    text="Explain Selected Code"
+                    description="Asks Cursor Agent to explain the selected code"/>
+            <action id="Cursor.RefactorCode"
+                    class="com.ceasle.intellicursor.actions.RefactorCodeAction"
+                    text="Refactor Selected Code"
+                    description="Asks Cursor Agent to suggest refactorings for selected code"/>
+            <separator/>
+            <action id="Cursor.ShowDiff"
+                    class="com.ceasle.intellicursor.actions.ShowDiffAction"
+                    text="Review Cursor Diff"
+                    description="Reviews uncommitted git changes using IntelliJ Diff"/>
+        </group>
+    </actions>
+</idea-plugin>

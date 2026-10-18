@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 40 40" fill="none">
+  <defs>
+    <linearGradient id="icPluginBg" x1="4" y1="2" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2E3380"/>
+      <stop offset="1" stop-color="#121538"/>
+    </linearGradient>
+  </defs>
+  <rect width="40" height="40" rx="10" fill="url(#icPluginBg)"/>
+  <path d="M8.5 11.5H15.5M12 11.5V28.5M8.5 28.5H15.5" stroke="#4FE3C1" stroke-width="3.4" stroke-linecap="round"/>
+  <path d="M31.2 14.6A8.6 8.6 0 1 0 31.2 25.4" stroke="#FFB13B" stroke-width="3.4" stroke-linecap="round"/>
+</svg>
